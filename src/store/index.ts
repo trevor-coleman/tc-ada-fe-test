@@ -2,8 +2,10 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import {useSelector, TypedUseSelectorHook} from 'react-redux';
 import nodeStore from './nodes';
 import variablesStore from './variables'
+import appStore from './app'
 
 const rootReducer = combineReducers({
+  app:appStore,
   nodes: nodeStore,
   variables: variablesStore
 })
