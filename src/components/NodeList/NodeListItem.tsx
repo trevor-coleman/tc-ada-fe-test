@@ -4,11 +4,9 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { DbNode } from '../../store/nodes';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
-import { findNodeById } from '../../store/nodes/thunks';
-import { selectNode } from '../../store/app';
-import { useTypedSelector } from '../../store';
+import { setSelectedNode } from '../../store/app';
 import  Collapse from '@material-ui/core/Collapse';
-import NodeList from './NodeList';
+import { useNodeState } from '../../store/nodes/selectors';
 
 interface NodeListItemProps {
   node:DbNode
@@ -19,10 +17,11 @@ const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemP
   const {node: {id, title}} = props;
   const classes = useStyles();
   const dispatch = useDispatch();
-  const selected = useTypedSelector(state=>state.app.nodeList.selected)
+  const {selected, isOpen} = useNodeState(id);
+
 
   const handleClick = ()=>{
-    dispatch(selectNode(id))
+    dispatch(setSelectedNode(id))
   }
 
   return (
@@ -30,9 +29,9 @@ const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemP
         <ListItem selected={id==selected} onClick={()=>handleClick()}>
         <ListItemText primary={title} />
       </ListItem>
-        <Collapse in={id==selected}>
+        <Collapse in={isOpen}>
           <ListItem>
-
+            <ListItemText primary={"Hello"} inset />
           </ListItem>
         </Collapse>
       </>);

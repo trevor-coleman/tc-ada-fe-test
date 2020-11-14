@@ -1,13 +1,16 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 export type AppState = {
   nodeList: {
-    selected: string|null
+    selected: string | null, open: string[],
   }
 }
 
 export const initialAppState: AppState = {
-  nodeList: {selected: null}
+  nodeList: {
+    selected: null,
+    open: [],
+  },
 };
 
 const appSlice = createSlice({
@@ -15,18 +18,37 @@ const appSlice = createSlice({
   extraReducers: {},
   initialState: initialAppState,
   reducers: {
-    selectNode: (state, action:PayloadAction<string>) => {
+    setSelectedNode: (state, {payload}) => {
+
+      let open = state.nodeList.open.slice();
+      let shouldSelect;
+      if (open.indexOf(payload) === -1) {
+        open.push(payload);
+        shouldSelect = true;
+      }
+      else {
+        open = open.filter(id => id != payload);
+        shouldSelect = false;
+      }
+
+      const selected = shouldSelect
+                       ? state.nodeList.selected === payload
+                         ? null
+                         : payload
+                       : null;
+
       return (
           {
             ...state,
             nodeList: {
-              selected: action.payload,
+              selected,
+              open,
             },
           });
-    }
+    },
 
   },
 });
 
-export const {selectNode}= appSlice.actions;
+export const {setSelectedNode} = appSlice.actions;
 export default appSlice.reducer;
