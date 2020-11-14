@@ -1,6 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, ActionReducerMapBuilder } from '@reduxjs/toolkit';
 import api from '../../api';
-import { DbNode } from './index';
+import { DbNode, NodesState } from './index';
 
 export const findNodes = createAsyncThunk<DbNode[], void, {rejectValue: string} >('nodes/findNodes', async (_, thunkAPI)=> {
   try {

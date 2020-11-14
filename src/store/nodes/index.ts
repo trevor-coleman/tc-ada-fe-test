@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { findNodes, findNodeById } from './thunks';
-import { RequestState } from '../types';
+import {
+  ApiRequestStatus, ApiRequestInfo, FulfilledApiRequest,
+} from '../types';
 
 export interface DbNode {
   id:string
@@ -19,48 +21,133 @@ export interface NormalizedNodes {
 }
 
 export interface NodesState {
-  findNodesRequestState: RequestState
+  findNodesByIdRequests: { [id: string]: ApiRequestInfo }
+  findNodesRequest: ApiRequestInfo
   nodes: NormalizedNodes
 }
 
 const initialNodesState: NodesState = {
-  findNodesRequestState: RequestState.Idle,
-  nodes:{}
-}
+  findNodesByIdRequests: {},
+  findNodesRequest: {
+    status: ApiRequestStatus.Idle,
+    id: null,
+    message: null,
+  },
+  nodes: {},
+  nodeIds: [],
+};
 
-const nodeSlice=createSlice({
+
+const nodeSlice = createSlice({
   name: 'nodes',
   initialState: initialNodesState,
-  reducers:{},
-  extraReducers: builder=> {
-    builder.addCase(findNodes.fulfilled, (state, {payload}:PayloadAction<DbNode[]>)=> {
-      const nodes = payload.reduce((prev:NormalizedNodes, curr: DbNode)=>({
-       ...prev,
-       [curr.id]: curr
-      }), {});
+  reducers: {},
+  extraReducers: builder => {
+    builder.addCase(findNodes.pending, (state, action) => {
+      const {meta: {requestId}} = action;
+      return (
+          {
+            ...state,
+            findNodesRequest: {
+              ...state.findNodesRequest,
+              status: ApiRequestStatus.Pending,
+              id: requestId,
+              message: null,
+            },
+          });
+    });
 
-      return {...state, nodes}
-    })
-
-    builder.addCase(findNodeById.fulfilled,
-        (state, {payload}: PayloadAction<DbNode[]>) => {
+    builder.addCase(findNodes.fulfilled,
+        (state, {payload, meta: {requestId}}) => {
+          // Normalize nodes before adding to store
           const nodes = payload.reduce((prev: NormalizedNodes,
-                                        curr: DbNode,
-                                        ) => (
+                                        curr: DbNode) => (
               {
                 ...prev,
-                [curr.id]: curr
-              }), state.nodes);
+                [curr.id]: curr,
+              }), {});
+
+          const nodeIds = Object.keys(nodes);
+
 
           return {
             ...state,
-            nodes
-          }
-        })
+            findNodesRequest: state.findNodesRequest.id === requestId ? FulfilledApiRequest:state.findNodesRequest,
+            nodes,
+            nodeIds,
+          };
+        });
 
+    builder.addCase(findNodes.rejected,
+        (state, {payload, meta: {requestId}}) => (
+            {
+              ...state,
+              findNodesRequest: requestId === state.findNodesRequest.id
+                                ? {
+                    status: ApiRequestStatus.Rejected,
+                    id: null,
+                    message: payload ?? "Failed to find nodes.",
+                  }
+                                : state.findNodesRequest,
+            }));
 
-  }
+    builder.addCase(findNodeById.pending, (state, action) => {
+      const {meta: {arg, requestId}} = action;
+      return (
+          {
+            ...state,
+            findNodesByIdRequests: {
+              ...state.findNodesByIdRequests,
+              [arg]: {
+                id: requestId,
+                message: null,
+                status: ApiRequestStatus.Pending,
+              },
+            },
+          });
+    });
 
-})
+    builder.addCase(findNodeById.fulfilled,
+        (state, {payload, meta: {arg, requestId}}) => {
+      //Normalize the returned node.
+      const nodes = payload.reduce(
+              (prev:NormalizedNodes, curr) => (
+              {
+                ...prev,
+                [curr.id]: curr,
+              }), state.nodes);
+
+      const nodeIds = Object.keys(nodes);
+
+          return {
+            ...state,
+            findNodesByIdRequests: state.findNodesByIdRequests[arg].id ===
+                                   requestId
+                                   ? {
+                  ...state.findNodesByIdRequests,
+                  [arg]: FulfilledApiRequest,
+                }
+                                   : state.findNodesByIdRequests,
+            nodes,
+            nodeIds
+          };
+        });
+
+    builder.addCase(findNodeById.rejected, (state, {payload, meta: {arg}}) => {
+
+      return (
+          {
+            ...state,
+            findNodesByIdRequests: {[arg]: {
+                status: ApiRequestStatus.Rejected,
+                id: null,
+                message: payload ?? "Failed to find requested node",
+              }},
+          });
+    });
+
+  },
+
+});
 
 export default nodeSlice.reducer;
