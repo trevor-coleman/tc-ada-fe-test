@@ -4,17 +4,13 @@ import Container from '@material-ui/core/Container';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { Typography } from '@material-ui/core';
 import NodeList from './components/NodeList/NodeList';
+import Home from './components/Home';
 
 function App() {
   return (
       <div>
         <CssBaseline />
-        <Container>
-          <div>
-            <Typography variant={"h1"}>Ada Test</Typography>
-          <NodeList/>
-          </div>
-        </Container>
+          <Home/>
       </div>);
 }
 

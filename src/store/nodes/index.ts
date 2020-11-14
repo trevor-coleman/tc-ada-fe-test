@@ -11,10 +11,17 @@ export interface DbNode {
   connections?: number[]
 }
 
-export interface DbNodeContent {
-  type: "body" | "url",
+export interface ContentText {
+  type: "text",
   body: string,
 }
+
+export interface ContentImage {
+  type: "image",
+  url: string,
+}
+
+export type DbNodeContent = ContentText | ContentImage;
 
 export interface NormalizedNodes {
   [id: string]: DbNode

@@ -4,12 +4,11 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { findNodes } from '../../store/nodes/thunks';
 import { useTypedSelector } from '../../store';
 import Box from '@material-ui/core/Box';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import ListItemText from '@material-ui/core/ListItemText';
-import { Avatar } from '@material-ui/core';
+import TreeView from '@material-ui/lab/TreeView';
 import NodeListItem from './NodeListItem';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
+import ChevronRightIcon from '@material-ui/icons/ChevronRight';
+import Divider from '@material-ui/core/Divider';
 
 interface NodeListProps {
 }
@@ -25,14 +24,14 @@ const NodeList: FunctionComponent<NodeListProps> = (props: NodeListProps) => {
 
   const {nodes} = useTypedSelector(state => state.nodes)
 
+  let nodeIds: string[] = Object.keys(nodes);
+  let lastNode = nodeIds.slice(-1).pop();
   return (
       <Box>
-        <List dense>
-          {Object.keys(nodes).map(n => {
+          {nodeIds.map(n => {
             const {id, title} =  nodes[n];
-            return <NodeListItem key={n} node={nodes[n]}/>;
+            return <NodeListItem key={n} id={n} lastChild={n==lastNode}/>;
           })}
-        </List>
       </Box>);
 };
 

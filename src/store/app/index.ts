@@ -1,15 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+export type NestedList = string | string[]
+
 export type AppState = {
   nodeList: {
-    selected: string | null, open: string[],
+    selected: string[],
+    list: (string | NestedList)[] ,
   }
 }
 
 export const initialAppState: AppState = {
   nodeList: {
-    selected: null,
-    open: [],
+    selected: [],
+    list: []
   },
 };
 
@@ -18,37 +21,31 @@ const appSlice = createSlice({
   extraReducers: {},
   initialState: initialAppState,
   reducers: {
-    setSelectedNode: (state, {payload}) => {
+    setSelectedNode: (state, {payload:{id, indent}}) => {
+      const shouldSelect = state.nodeList.selected[indent]!==id;
+      const selected: string[]  = state.nodeList.selected.slice(0,
+          indent);
 
-      let open = state.nodeList.open.slice();
-      let shouldSelect;
-      if (open.indexOf(payload) === -1) {
-        open.push(payload);
-        shouldSelect = true;
+      if(shouldSelect) {
+        selected.push(id.toString());
       }
-      else {
-        open = open.filter(id => id != payload);
-        shouldSelect = false;
-      }
-
-      const selected = shouldSelect
-                       ? state.nodeList.selected === payload
-                         ? null
-                         : payload
-                       : null;
 
       return (
           {
             ...state,
             nodeList: {
+              ...state.nodeList,
               selected,
-              open,
             },
           });
     },
 
   },
 });
+
+export function makeListId(id:string, indent: number) {
+  return id + "-" + indent;
+}
 
 export const {setSelectedNode} = appSlice.actions;
 export default appSlice.reducer;
