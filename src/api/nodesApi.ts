@@ -1,4 +1,4 @@
-import { Node } from '../store/nodes';
+import { DbNode } from '../store/nodes';
 import { AxiosResponse, AxiosInstance } from 'axios';
 import AApiSection from './AApiSection';
 
@@ -8,10 +8,10 @@ export default class NodesApi extends AApiSection{
   /**
    * Returns a shallow list of nodes suitable for display in the sidebar.
    * Throws an error if the call was unsuccessful.
-   * @return {Promise<Node[]>}
+   * @return {Promise<DbNode[]>}
    */
-  async find(): Promise<Node[]> {
-    const response: AxiosResponse<Node[]> = await this.axios.get("/nodes");
+  async find(): Promise<DbNode[]> {
+    const response: AxiosResponse<DbNode[]> = await this.axios.get("/nodes");
     return response.data;
   }
 
@@ -21,10 +21,10 @@ export default class NodesApi extends AApiSection{
    *  - Returns empty array if no match.
    * Throws an error if the call was unsuccessful.
    * @param {string} id
-   * @return {Promise<Node>}
+   * @return {Promise<DbNode>}
    */
-  async findById(id: string): Promise<Node[]> {
-    const response: AxiosResponse<Node[]> = await this.axios.get(`/nodes/${id}`);
+  async findById(id: string): Promise<DbNode[]> {
+    const response: AxiosResponse<DbNode[]> = await this.axios.get(`/nodes/${id}`);
     return response.data;
   }
 
@@ -34,10 +34,10 @@ export default class NodesApi extends AApiSection{
    * - Returns an empty array if none match.
    * Throws an error if the call was unsuccessful.
    * @param {string} query
-   * @return {Promise<Node[]>}
+   * @return {Promise<DbNode[]>}
    */
-  async search(query: string): Promise<Node[]> {
-    const response: AxiosResponse<Node[]> = await this.axios.post("/nodes/search", {query});
+  async search(query: string): Promise<DbNode[]> {
+    const response: AxiosResponse<DbNode[]> = await this.axios.post("/nodes/search", {query});
     return response.data;
   }
 }
