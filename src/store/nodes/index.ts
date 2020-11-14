@@ -1,14 +1,14 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice} from '@reduxjs/toolkit';
 import { findNodes, findNodeById } from './thunks';
 import {
   ApiRequestStatus, ApiRequestInfo, FulfilledApiRequest,
 } from '../types';
 
 export interface DbNode {
-  id:string
+  id: string
   title: string
-  content ?: DbNodeContent[],
-  connections ?: number[]
+  content?: DbNodeContent[],
+  connections?: number[]
 }
 
 export interface DbNodeContent {
@@ -24,6 +24,7 @@ export interface NodesState {
   findNodesByIdRequests: { [id: string]: ApiRequestInfo }
   findNodesRequest: ApiRequestInfo
   nodes: NormalizedNodes
+  nodeIds: string[],
 }
 
 const initialNodesState: NodesState = {
