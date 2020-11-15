@@ -2,7 +2,6 @@ import React, { FunctionComponent } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { useSelectedNode } from '../../store/nodes/selectors';
-import { CircularProgress } from '@material-ui/core';
 import ContentBlock from '../ContentBlock';
 import Grid from '@material-ui/core/Grid';
 
@@ -13,17 +12,16 @@ interface DetailViewProps {
 const DetailView: FunctionComponent<DetailViewProps> = (props: DetailViewProps) => {
   const {} = props;
   const classes = useStyles();
-  const dispatch = useDispatch();
-  const {title, content, connections, id, requestStatus} = useSelectedNode();
-  console.log(id);
+
+  const {content} = useSelectedNode();
 
   return (
       <div className={classes.root}>
-        <Grid container direction={'column'} spacing={2}>
+        <Grid container direction={'column'} spacing={2} alignContent={'center'}>
           {content
            ? content.map((item, index) => {
                 return (
-                    <Grid item xs={8} key={"content-" + item.type + index}>
+                    <Grid item xs={8} key={"content-" + item.type + index} className={classes.contentBlock}>
                       <ContentBlock content={item} />
                     </Grid>);
               })
@@ -36,6 +34,8 @@ const useStyles = makeStyles((theme: Theme) => (
     {
       root: {
       },
+      contentBlock: {
+      }
     }));
 
 export default DetailView;

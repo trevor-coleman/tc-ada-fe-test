@@ -1,6 +1,7 @@
 import AApiSection from './AApiSection';
 import { AxiosInstance, AxiosResponse } from 'axios';
 import { DbNode } from '../store/nodes';
+import { Variable } from '../store/variables';
 
 export default class VariablesApi extends AApiSection {
   constructor(axios:AxiosInstance) {super(axios);}
@@ -10,8 +11,8 @@ export default class VariablesApi extends AApiSection {
    * @return {Promise<DbNode[]>}
    */
 
-  async find(): Promise<DbNode[]> {
-    const response: AxiosResponse<DbNode[]> = await this.axios.get("/nodes");
+  async find(): Promise<Variable[]> {
+    const response: AxiosResponse<Variable[]> = await this.axios.get("/variables");
     return response.data;
   }
 

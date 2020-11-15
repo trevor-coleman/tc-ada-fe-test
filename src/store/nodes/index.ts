@@ -1,7 +1,6 @@
 import { createSlice} from '@reduxjs/toolkit';
 import { findNodes, findNodeById } from './thunks';
-import {
-  ApiRequestStatus, ApiRequestInfo, FulfilledApiRequest,
+import { ApiRequestStatus, ApiRequestInfo, FulfilledApiRequest,
 } from '../types';
 
 export interface DbNode {
@@ -14,6 +13,20 @@ export interface DbNode {
 export interface ContentText {
   type: "text",
   body: string,
+  segments?: ContentTextElement[];
+}
+
+export type ContentTextElement = ContentTextElementText | ContentTextElementVariable
+
+export interface ContentTextElementText {
+  element: "text"
+  value?: string
+}
+
+export interface ContentTextElementVariable {
+  element: "variable",
+  id: string
+  default?: string
 }
 
 export interface ContentImage {

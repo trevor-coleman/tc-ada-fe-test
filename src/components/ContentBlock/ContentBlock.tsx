@@ -4,9 +4,6 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { DbNodeContent } from '../../store/nodes';
 import ImageBlock from './ImageBlock';
 import TextBlock from './TextBlock';
-import { Card } from '@material-ui/core';
-import CardContent from '@material-ui/core/CardContent';
-import CardHeader from '@material-ui/core/CardHeader';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
@@ -19,7 +16,7 @@ interface ContentBlockProps {
 const ContentBlock: FunctionComponent<ContentBlockProps> = (props: ContentBlockProps) => {
   const {content} = props;
   const classes = useStyles();
-  const dispatch = useDispatch();
+
 
   let Block;
   switch (content.type) {
@@ -35,14 +32,14 @@ const ContentBlock: FunctionComponent<ContentBlockProps> = (props: ContentBlockP
   }
 
   return (
-      <Paper className={classes.root}>
-        <Box p={2}>
+      <Paper>
+        <Box className={classes.root}>
           <div className={classes.contentType}>
             <Typography variant={'h6'}>{content.type}</Typography>
           </div>
-        <div>
+        <Box p={2} className={classes.content}>
           <Block/>
-        </div>
+        </Box>
         </Box>
       </Paper>
   );
@@ -50,10 +47,17 @@ const ContentBlock: FunctionComponent<ContentBlockProps> = (props: ContentBlockP
 
 const useStyles = makeStyles((theme: Theme) => (
     {
-      root: {},
+      root: {
+        padding: theme.spacing(3),
+        paddingTop: 0,
+        backgroundColor: "#e2e2e2"
+      },
       contentType: {
         display: 'flex',
         justifyContent: 'center'
+      }, content: {
+        backgroundColor: "#fff",
+        border: "1px solid lightgrey",
       }
     }));
 
