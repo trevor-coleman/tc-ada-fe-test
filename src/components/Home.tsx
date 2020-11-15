@@ -4,7 +4,7 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import NodeList from './NodeList/NodeList';
 import Drawer from '@material-ui/core/Drawer';
 import Container from '@material-ui/core/Container';
-import { Typography, InputAdornment } from '@material-ui/core';
+import { InputAdornment } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import DetailView from './DetailView/DetailView';
@@ -66,7 +66,10 @@ const useStyles = makeStyles((theme: Theme) => (
         width: "100%",
       },
       container: {
+        paddingTop: theme.spacing(2),
         marginLeft: drawerWidth,
+        backgroundColor: "#d9d9d9",
+        minHeight: "100vh"
       },
       drawer: {
         width: drawerWidth,
