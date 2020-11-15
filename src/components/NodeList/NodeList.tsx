@@ -30,8 +30,14 @@ const NodeList: FunctionComponent<NodeListProps> = (props: NodeListProps) => {
   return (
       <Box>
         <ul className={classes.ul}>
-          {nodeIds.map(n => {
-            return <NodeListItem key={n} id={n} />;
+          {nodeIds.map((n,index) => {
+            return <>
+              <div key={"node-"+n+"-"+index} className={classes.node}>
+                <NodeListItem id={n} />
+              </div>
+              <Divider />
+            </>;
+
           })}
         </ul>
       </Box>);
@@ -42,8 +48,12 @@ const useStyles = makeStyles((theme: Theme) => (
       ul: {
         position: 'relative',
         listStyle: 'none',
-        paddingLeft: 32,
+        paddingLeft:0,
       },
+      node: {
+        display: 'flex',
+        alignItems: 'center',
+      }
     }));
 
 export default NodeList;

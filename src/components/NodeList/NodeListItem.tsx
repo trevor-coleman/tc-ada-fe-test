@@ -5,6 +5,7 @@ import Collapse from '@material-ui/core/Collapse';
 import { useNode } from '../../store/nodes/selectors';
 import { selectNode } from '../../store/app/thunks';
 import { ApiRequestStatus } from '../../store/types';
+import { Divider } from '@material-ui/core';
 
 interface NodeListItemProps {
   id: string,
@@ -16,7 +17,7 @@ interface NodeListItemProps {
 const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemProps) => {
   const {id} = props;
   const indent = props.indent ?? 0;
-  const classes = useStyles();
+  const classes = useStyles(props);
   const dispatch = useDispatch();
   const {selected, title, connections, requestStatus, isHighlighted} = useNode(
       id,indent
@@ -36,8 +37,10 @@ const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemP
 
   return (
 
-      <li className={indent > 0 ? classes.li:classes.topLi} key={id}><div onClick={() => handleClick()}>{title}</div>
-        <Collapse in={isSelected}>
+      <li className={indent > 0 ? classes.li:classes.topLi} key={id}>
+        <div onClick={() => handleClick()} className={classes.title}>{title}</div>
+        <Collapse in={isSelected && finishedLoading}>
+          {showTopDivider ? <Divider className={classes.topDivider} /> :""}
           <ul className={classes.ul}>
             {connections?.map((connection, index)=> (<NodeListItem key={id+connection+index}  id={connection.toString()} indent={indent+1}>{title}</NodeListItem>))}
           </ul>
@@ -54,15 +57,30 @@ const useStyles = makeStyles((theme:Theme)=> ({
   ul: {
     position: 'relative',
     listStyle: 'none',
-    paddingLeft: 32,
+  },
+  topDivider: {
+    width:"100%",
+  },
+  title:{
+    paddingLeft({indent}: NodeListItemProps) {
+      console.log(indent);
+      return (indent??0) == 0
+             ? theme.spacing(2)
+             : 0;
+    },
+    paddingBottom: theme.spacing(1),
   },
   topLi: {
     position: 'relative',
     cursor: "pointer",
+    paddingTop: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+    width: "100%",
   },
   li: {
     position: 'relative',
     cursor: "pointer",
+    paddingTop: theme.spacing(1),
     '&::before': {
       display: "inline",
       content: '" "',
@@ -70,7 +88,7 @@ const useStyles = makeStyles((theme:Theme)=> ({
       left: -12,
       height: 0,
       borderTop: "1px solid black",
-      top: "0.7rem",
+      top: "1.1rem",
       width: "0.7rem",
 
 
@@ -86,11 +104,12 @@ const useStyles = makeStyles((theme:Theme)=> ({
     },
     '&:last-child': {
       marginBottom: theme.spacing(1),
-      height: "90%"
+      height: "100%"
     },
     '&:last-child::after': {
       marginBottom: theme.spacing(1),
-      height: "90%"
+      top: "-0.2rem",
+      height: "1.4rem"
     },
   }
 }))
