@@ -22,23 +22,24 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
   const [searchString, setSearchString]= useState("");
   return (
       <div>
-        <Drawer className={classes.drawer} variant={"permanent"}>
-          <div className={classes.search}>
-            <TextField size={"small"} className={classes.searchField} variant={'outlined'}
-                       placeholder={"Search"}
-                       value={searchString}
-                       onChange={(e)=>setSearchString(e.target.value)}
-                       InputProps={{
-                         startAdornment:
-                             <InputAdornment position="start"><SearchIcon/></InputAdornment>,
-                       }}/>
-          </div>
-          <div className={classes.nodeList}>
-          <NodeList />
-          </div>
-        </Drawer>
+        {/*<Drawer className={classes.drawer} variant={"permanent"}>*/}
+        {/*  <div className={classes.search}>*/}
+        {/*    <TextField size={"small"} className={classes.searchField} variant={'outlined'}*/}
+        {/*               placeholder={"Search"}*/}
+        {/*               value={searchString}*/}
+        {/*               onChange={(e)=>setSearchString(e.target.value)}*/}
+        {/*               InputProps={{*/}
+        {/*                 startAdornment:*/}
+        {/*                     <InputAdornment position="start"><SearchIcon/></InputAdornment>,*/}
+        {/*               }}/>*/}
+        {/*  </div>*/}
+        {/*  <div className={classes.nodeList}>*/}
+
+        {/*  </div>*/}
+        {/*</Drawer>*/}
         <Container className={classes.container}>
-          <DetailView/>
+          <NodeList />
+          {/*<DetailView/>*/}
         </Container>
 
       </div>);

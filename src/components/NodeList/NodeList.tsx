@@ -9,6 +9,7 @@ import NodeListItem from './NodeListItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from '@material-ui/core/Divider';
+import { Collapse } from '@material-ui/core';
 
 interface NodeListProps {
 }
@@ -28,16 +29,21 @@ const NodeList: FunctionComponent<NodeListProps> = (props: NodeListProps) => {
   let lastNode = nodeIds.slice(-1).pop();
   return (
       <Box>
+        <ul className={classes.ul}>
           {nodeIds.map(n => {
-            const {id, title} =  nodes[n];
-            return <NodeListItem key={n} id={n} lastChild={n==lastNode}/>;
+            return <NodeListItem key={n} id={n} />;
           })}
+        </ul>
       </Box>);
 };
 
 const useStyles = makeStyles((theme: Theme) => (
     {
-      root: {},
+      ul: {
+        position: 'relative',
+        listStyle: 'none',
+        paddingLeft: 32,
+      },
     }));
 
 export default NodeList;

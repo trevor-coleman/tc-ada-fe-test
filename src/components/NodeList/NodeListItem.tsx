@@ -5,103 +5,96 @@ import Collapse from '@material-ui/core/Collapse';
 import { useNode } from '../../store/nodes/selectors';
 import { selectNode } from '../../store/app/thunks';
 import { ApiRequestStatus } from '../../store/types';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import TreeLines from './TreeLines';
 
 interface NodeListItemProps {
   id: string,
-  indents?: number[],
+  indent?: number,
   index?: number,
-  lastChild: boolean,
-  parentIsLastChild?: boolean,
 }
 
 //COMPONENT
 const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemProps) => {
-  const {id, lastChild, index} = props;
-  const indents = props.indents ?? [];
-  const classes = useStyles(props);
+  const {id} = props;
+  const indent = props.indent ?? 0;
+  const classes = useStyles();
   const dispatch = useDispatch();
   const {selected, title, connections, requestStatus, isHighlighted} = useNode(
-      id,
-      indents.length);
+      id,indent
+      );
 
-  const isSelected: boolean = selected[indents.length] === id;
+  const isSelected: boolean = selected[indent] === id;
   const finishedLoading = requestStatus?.status === ApiRequestStatus.Fulfilled;
 
   const handleClick = () => {
-    dispatch(selectNode(id, indents.length));
-    console.log(lastChild,indents.length, indents)
+    console.log("click", id, indent)
+    dispatch(selectNode(id, indent));
   };
 
-  const showDivider = indents.length == 0;
-  const showTopDivider = showDivider && isSelected &&
-                         connections && connections.length > 0;
+  const showDivider = indent == 0;
+  const showTopDivider = showDivider && isSelected && connections &&
+                         connections.length > 0;
 
   return (
-      <>
-        <div className={classes.root} style={{
-          backgroundColor: isHighlighted
-                           ? "#ddd"
-                           : "#fff",
-        }} onClick={handleClick}>
-          <div className={classes.treeLines}><TreeLines indents={indents} index={index??0}/></div>
-          <div>
-          <Typography className={classes.title}>{title}</Typography>
-          </div>
-        </div>
-        {showTopDivider
-         ? <Divider />
-         : ""}
-          {connections
-           ? connections.map((connection, index) => {
-             const newIdents = indents.slice();
-             newIdents.push(lastChild ? 0: 1)
-                return (
-                    <NodeListItem key={id + "-" + indents.length + "-" + index}
-                                    indents={newIdents}
-                                    id={connection.toString()}
-                                    index={index}
-                                    lastChild={index==connections.length-1}
-                    />
-                    );
-              })
-           : ""}
-        {showDivider
-         ? <Divider />
-         : ""}
-      </>);
+
+      <li className={indent > 0 ? classes.li:classes.topLi} key={id}><div onClick={() => handleClick()}>{title}</div>
+        <Collapse in={isSelected}>
+          <ul className={classes.ul}>
+            {connections?.map((connection, index)=> (<NodeListItem key={id+connection+index}  id={connection.toString()} indent={indent+1}>{title}</NodeListItem>))}
+          </ul>
+        </Collapse>
+      </li>
+  );
 };
 
-const useStyles = makeStyles((theme: Theme) => (
-    {
-      root: {
-        paddingLeft: ({indents}: NodeListItemProps) => theme.spacing(indents && indents.length > 0
-                                                                    ? 4
-                                                                    : 2),
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        height: theme.spacing(5),
-        cursor: 'default',
-      },
+interface ConnectorProps {
+  indent: number
+}
 
-      title: {
-        marginLeft: theme.spacing(1),
-        overflow: "hidden",
-        textOverflow: "ellipsis",
-        whiteSpace:"nowrap"
+const useStyles = makeStyles((theme:Theme)=> ({
+  ul: {
+    position: 'relative',
+    listStyle: 'none',
+    paddingLeft: 32,
+  },
+  topLi: {
+    position: 'relative',
+    cursor: "pointer",
+  },
+  li: {
+    position: 'relative',
+    cursor: "pointer",
+    '&::before': {
+      display: "inline",
+      content: '" "',
+      position: 'absolute',
+      left: -12,
+      height: 0,
+      borderTop: "1px solid black",
+      top: "0.7rem",
+      width: "0.7rem",
 
-      },
-      loadingSpinner: {
-        width: 20,
-        height: 20,
-      },
-      treeLines: {
-        width: 20,
-      }
-    }));
+
+    },
+    '&::after': {
+      content: '" "',
+      position: 'absolute',
+      top: -2,
+      left: -12,
+      height: "100%",
+      width: 0,
+      border: "1px solid darkgrey"
+    },
+    '&:last-child': {
+      marginBottom: theme.spacing(1),
+      height: "90%"
+    },
+    '&:last-child::after': {
+      marginBottom: theme.spacing(1),
+      height: "90%"
+    },
+  }
+}))
+
 
 export default NodeListItem;
 
