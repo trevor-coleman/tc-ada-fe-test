@@ -28,7 +28,6 @@ const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemP
   const finishedLoading = requestStatus?.status === ApiRequestStatus.Fulfilled;
 
   const handleClick = () => {
-    console.log("click", id, indent);
     dispatch(selectNode(id, indent));
   };
 
@@ -72,21 +71,18 @@ const useStyles = makeStyles((theme: Theme) => (
       },
       title: {
         paddingLeft({indent}: NodeListItemProps) {
-          console.log(indent);
           return (
                      indent ?? 0) == 0
                  ? theme.spacing(2)
                  : 0;
         },
         paddingTop({indent}: NodeListItemProps) {
-          console.log(indent);
           return (
                      indent ?? 0) == 0
                  ? theme.spacing(1)
                  : theme.spacing(1);
         },
         paddingBottom({indent}: NodeListItemProps) {
-          console.log(indent);
           return (
                      indent ?? 0) == 0
                  ? theme.spacing(1)
