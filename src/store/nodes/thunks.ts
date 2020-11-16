@@ -1,9 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api';
-import { DbNode, ContentText, ContentTextElement } from './index';
-
-
-
+import { ContentTextElement, DbNode } from './types';
 
 
 export const findNodes = createAsyncThunk<DbNode[], void, { rejectValue: string }>(

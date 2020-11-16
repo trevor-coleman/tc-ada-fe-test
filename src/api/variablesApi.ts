@@ -1,6 +1,5 @@
 import AApiSection from './AApiSection';
 import { AxiosInstance, AxiosResponse } from 'axios';
-import { DbNode } from '../store/nodes';
 import { Variable } from '../store/variables';
 
 export default class VariablesApi extends AApiSection {

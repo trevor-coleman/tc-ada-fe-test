@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { useDispatch } from 'react-redux';
+
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { ContentText } from '../../store/nodes';
+
 import VariablePill from './VariablePill';
+import { ContentText } from '../../store/nodes/types';
 
 interface TextBlockProps {
   content: ContentText

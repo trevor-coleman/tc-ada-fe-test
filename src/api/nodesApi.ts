@@ -1,6 +1,7 @@
-import { DbNode } from '../store/nodes';
+
 import { AxiosResponse, AxiosInstance } from 'axios';
 import AApiSection from './AApiSection';
+import { DbNode } from '../store/nodes/types';
 
 export default class NodesApi extends AApiSection{
   constructor(axios: AxiosInstance) {super(axios);}

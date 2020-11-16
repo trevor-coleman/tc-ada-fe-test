@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles, Theme } from '@material-ui/core/styles';
-import { ContentImage } from '../../store/nodes';
+import { ContentImage } from '../../store/nodes/types';
+
 
 interface ImageBlockProps {
   content: ContentImage
