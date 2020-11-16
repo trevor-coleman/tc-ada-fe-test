@@ -7,7 +7,7 @@ export default class VariablesApi extends AApiSection {
 
   /**
    * Returns all variable data.
-   * @return {Promise<DbNode[]>}
+   * @return {Promise<Variable[]>}
    */
 
   async find(): Promise<Variable[]> {
