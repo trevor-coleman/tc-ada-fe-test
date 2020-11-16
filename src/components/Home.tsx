@@ -4,10 +4,11 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import NodeList from './NodeList/NodeList';
 import Drawer from '@material-ui/core/Drawer';
 import Container from '@material-ui/core/Container';
-import { InputAdornment } from '@material-ui/core';
+import InputAdornment from '@material-ui/core/InputAdornment';
 import TextField from '@material-ui/core/TextField';
 import SearchIcon from '@material-ui/icons/Search';
 import DetailView from './DetailView/DetailView';
+import Search from './Search';
 
 interface HomeProps {
 }
@@ -23,16 +24,7 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
   return (
       <div>
         <Drawer className={classes.drawer} variant={"permanent"}>
-          <div className={classes.search}>
-            <TextField size={"small"} className={classes.searchField} variant={'outlined'}
-                       placeholder={"Search"}
-                       value={searchString}
-                       onChange={(e)=>setSearchString(e.target.value)}
-                       InputProps={{
-                         startAdornment:
-                             <InputAdornment position="start"><SearchIcon/></InputAdornment>,
-                       }}/>
-          </div>
+          <Search/>
           <div className={classes.nodeList}>
             <NodeList />
           </div>
@@ -47,18 +39,6 @@ const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
 
 const useStyles = makeStyles((theme: Theme) => (
     {
-      search: {
-        height: 64,
-        display:'flex',
-        alignItems:'center',
-        justifyContent: 'center',
-        backgroundColor: "#c9c9c9",
-        width: drawerWidth,
-      },
-      searchField: {
-        backgroundColor: "#fff",
-        borderRadius: 4,
-      },
       nodeList: {
         maxWidth: drawerWidth,
         overflow: "hidden",
@@ -67,7 +47,7 @@ const useStyles = makeStyles((theme: Theme) => (
       },
       container: {
         paddingTop: theme.spacing(2),
-        marginLeft: drawerWidth,
+        paddingLeft: drawerWidth,
         backgroundColor: "#d9d9d9",
         minHeight: "100vh"
       },
