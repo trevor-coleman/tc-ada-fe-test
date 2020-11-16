@@ -1,4 +1,4 @@
-import React, { FunctionComponent} from 'react';
+import React, { FunctionComponent, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Chip  from '@material-ui/core/Chip';
@@ -25,9 +25,13 @@ const VariablePill: FunctionComponent<VariablePillProps> = (props: VariablePillP
   const variable = useVariable(id);
   const request = useFetchVariablesRequest();
 
-  if(!variable && request.status == ApiRequestStatus.Idle) {
-    dispatch(fetchVariables())
-  }
+  useEffect(()=>{
+    if (!variable && request.status == ApiRequestStatus.Idle) {
+      dispatch(fetchVariables())
+    }},[id]
+  )
+
+
 
   const handleDelete = () => {
     console.info('You clicked the delete icon.');
