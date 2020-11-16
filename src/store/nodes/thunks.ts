@@ -57,7 +57,16 @@ function parseContentText({body}: ContentText): ContentTextElement[] {
     }
   }
 
-  console.log(result);
-
   return result;
 }
+
+export const searchNodes = createAsyncThunk<DbNode[], string, { rejectValue: string }>(
+    'nodes/search',
+    async (searchTerm: string, thunkAPI) => {
+      try {
+        return await api.nodes.search(searchTerm);
+      } catch (e) {
+        thunkAPI.rejectWithValue(e);
+      }
+      return [];
+    });

@@ -1,6 +1,7 @@
-import { createSlice} from '@reduxjs/toolkit';
-import { findNodes, findNodeById } from './thunks';
-import { ApiRequestStatus, ApiRequestInfo, FulfilledApiRequest,
+import { createSlice } from '@reduxjs/toolkit';
+import { findNodes, findNodeById, searchNodes } from './thunks';
+import {
+  ApiRequestStatus, ApiRequestInfo, FulfilledApiRequest,
 } from '../types';
 import { NormalizedNodes, DbNode } from './types';
 
@@ -9,6 +10,7 @@ export interface NodesState {
   findNodesRequest: ApiRequestInfo
   nodes: NormalizedNodes
   nodeIds: string[],
+  visibleNodeIds: string[],
 }
 
 const initialNodesState: NodesState = {
@@ -20,14 +22,15 @@ const initialNodesState: NodesState = {
   },
   nodes: {},
   nodeIds: [],
+  visibleNodeIds: [],
 };
-
 
 const nodeSlice = createSlice({
   name: 'nodes',
   initialState: initialNodesState,
   reducers: {},
   extraReducers: builder => {
+    //FIND NODES
     builder.addCase(findNodes.pending, (state, action) => {
       const {meta: {requestId}} = action;
       return (
@@ -53,11 +56,13 @@ const nodeSlice = createSlice({
               }), {});
 
           const nodeIds = Object.keys(nodes);
-
+          const visibleNodeIds = Object.keys(nodes);
 
           return {
             ...state,
-            findNodesRequest: state.findNodesRequest.id === requestId ? FulfilledApiRequest:state.findNodesRequest,
+            findNodesRequest: state.findNodesRequest.id === requestId
+                              ? FulfilledApiRequest
+                              : state.findNodesRequest,
             nodes,
             nodeIds,
           };
@@ -75,7 +80,7 @@ const nodeSlice = createSlice({
                   }
                                 : state.findNodesRequest,
             }));
-
+    ///FIND NODE BY ID
     builder.addCase(findNodeById.pending, (state, action) => {
       const {meta: {arg, requestId}} = action;
       return (
@@ -94,15 +99,14 @@ const nodeSlice = createSlice({
 
     builder.addCase(findNodeById.fulfilled,
         (state, {payload, meta: {arg, requestId}}) => {
-      //Normalize the returned node.
-      const nodes = payload.reduce(
-              (prev:NormalizedNodes, curr) => (
+          //Normalize the returned node.
+          const nodes = payload.reduce((prev: NormalizedNodes, curr) => (
               {
                 ...prev,
                 [curr.id]: curr,
               }), state.nodes);
 
-      const nodeIds = Object.keys(nodes);
+          const nodeIds = Object.keys(nodes);
 
           return {
             ...state,
@@ -114,7 +118,7 @@ const nodeSlice = createSlice({
                 }
                                    : state.findNodesByIdRequests,
             nodes,
-            nodeIds
+            nodeIds,
           };
         });
 
@@ -123,16 +127,46 @@ const nodeSlice = createSlice({
       return (
           {
             ...state,
-            findNodesByIdRequests: {[arg]: {
+            findNodesByIdRequests: {
+              [arg]: {
                 status: ApiRequestStatus.Rejected,
                 id: null,
                 message: payload ?? "Failed to find requested node",
-              }},
+              },
+            },
           });
     });
 
-  },
+    //SEARCH NODES
+    builder.addCase(searchNodes.fulfilled,
+        (state, {payload, meta: {arg, requestId}}) => {
 
+          //normalize nodes -- keep existing data to reduce fetching.
+          const nodes = payload.reduce((prev: NormalizedNodes,
+                                        curr: DbNode) => (
+              {
+                ...prev,
+                [curr.id]: {
+                  ...prev[curr.id], ...curr,
+                },
+              }), {});
+
+
+          const nodeIds  = Object.keys(nodes);
+          const visibleNodeIds = payload.reduce((prev: string[],
+                                                 curr: DbNode) => {
+            prev.push(curr.id);
+            return prev;
+          }, []);
+
+          return {
+            ...state,
+            nodes,
+            nodeIds,
+            visibleNodeIds,
+          };
+        });
+  },
 });
 
 export default nodeSlice.reducer;
