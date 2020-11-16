@@ -31,12 +31,12 @@ const NodeList: FunctionComponent<NodeListProps> = (props: NodeListProps) => {
       <Box>
         <ul className={classes.ul}>
           {nodeIds.map((n,index) => {
-            return <>
-              <div key={"node-"+n+"-"+index} className={classes.node}>
+            return <div key={"node-" + n + "-" + index}>
+              <div className={classes.node}>
                 <NodeListItem id={n} />
               </div>
               <Divider />
-            </>;
+            </div>;
 
           })}
         </ul>
