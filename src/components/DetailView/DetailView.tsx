@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { useDispatch } from 'react-redux';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import { useSelectedNode } from '../../store/nodes/selectors';
 import ContentBlock from '../ContentBlock';
@@ -8,7 +7,12 @@ import Grid from '@material-ui/core/Grid';
 interface DetailViewProps {
 }
 
-//COMPONENT
+/**
+ * Component that renders the selected node as a vertical column of ContentBlocks.
+ * @param {DetailViewProps} props
+ * @return {JSX.Element}
+ * @constructor
+ */
 const DetailView: FunctionComponent<DetailViewProps> = (props: DetailViewProps) => {
   const {} = props;
   const classes = useStyles();

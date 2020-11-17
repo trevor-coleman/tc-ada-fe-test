@@ -9,15 +9,23 @@ import Paper from '@material-ui/core/Paper';
 import Box from '@material-ui/core/Box';
 import { DbNodeContent } from '../../store/nodes/types';
 
+/**
+ * @property {DbNodeContent} content
+ */
 interface ContentBlockProps {
   content: DbNodeContent
 }
 
-//COMPONENT
+/**
+ * Styled wrapper Component that renders a DBNodeContent
+ * object using the appropriate component selected by type.
+ * @param {ContentBlockProps} props
+ * @return {JSX.Element}
+ * @constructor
+ */
 const ContentBlock: FunctionComponent<ContentBlockProps> = (props: ContentBlockProps) => {
   const {content} = props;
   const classes = useStyles();
-
 
   let Block;
   switch (content.type) {
@@ -51,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) => (
       root: {
         padding: theme.spacing(3),
         paddingTop: 0,
-        backgroundColor: "#e2e2e2"
+        backgroundColor: theme.palette.grey['200']
       },
       contentType: {
         display: 'flex',

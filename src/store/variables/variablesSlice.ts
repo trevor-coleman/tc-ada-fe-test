@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchVariables } from './thunks';
-import { ApiRequestInfo, ApiRequestStatus } from '../types';
+import { ApiRequestInfo, ApiRequestStatus, InitialApiRequest } from '../types';
 import { normalizePayload } from '../normalize';
 
 export interface Variable {
@@ -19,11 +19,7 @@ export interface VariablesState {
 }
 
 const initialVariablesState: VariablesState = {
-  fetchVariablesRequest: {
-    status: ApiRequestStatus.Idle,
-    message: null,
-    id: null,
-  },
+  fetchVariablesRequest: InitialApiRequest,
   variables: {},
 };
 

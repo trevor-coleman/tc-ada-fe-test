@@ -8,20 +8,26 @@ interface ImageBlockProps {
   content: ContentImage
 }
 
-//COMPONENT
+/**
+ * Component that renders a ContentImage object
+ * @param {ImageBlockProps} props
+ * @return {JSX.Element}
+ * @constructor
+ */
 const ImageBlock: FunctionComponent<ImageBlockProps> = (props: ImageBlockProps) => {
-  const {} = props;
+  const {content:{url, type}} = props;
   const classes = useStyles();
-  const dispatch = useDispatch();
 
   return (
       <div className={classes.root}>
-        ImageBlock </div>);
+        <img className={classes.image} src={url} alt={type}/>
+      </div>);
 };
 
 const useStyles = makeStyles((theme: Theme) => (
     {
       root: {},
+      image: {width: "100%"}
     }));
 
 export default ImageBlock;

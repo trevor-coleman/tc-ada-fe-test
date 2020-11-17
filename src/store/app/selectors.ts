@@ -1,3 +1,7 @@
 import { useTypedSelector } from '../index';
 
-export const useSearchString = ()=>useTypedSelector(state => state.app.search.searchString)
+/**
+ * Returns the current searchString
+ * @return {string}
+ */
+export const useSearchTerm = ()=>useTypedSelector(state => state.app.search.searchString)

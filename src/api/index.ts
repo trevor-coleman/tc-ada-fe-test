@@ -4,7 +4,7 @@ import VariablesApi from './variablesApi';
 
 /**
  * The API class handles all calls to the API. Axios instance is initialized
- * in the constructor and passed to each section on creation.
+ * constructor and passed to each section on creation.
  */
 export class Api {
 

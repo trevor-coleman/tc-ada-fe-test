@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import api from '../../api';
 import { ContentTextElement, DbNode } from './types';
+import { RootState } from '../index';
 
 export const findNodes = createAsyncThunk<DbNode[], void, { rejectValue: string; }>(
     'nodes/findNodes',
@@ -13,7 +14,7 @@ export const findNodes = createAsyncThunk<DbNode[], void, { rejectValue: string;
       return [];
     });
 
-export const findNodeById = createAsyncThunk<DbNode[], string, { rejectValue: string }>(
+export const findNodeById = createAsyncThunk<DbNode[], number, { rejectValue: string }>(
     'nodes/findNodeById',
     async (id, thunkAPI) => {
 
@@ -58,7 +59,7 @@ function parseContentText(body: string): ContentTextElement[] {
   return result;
 }
 
-export const searchNodes = createAsyncThunk<DbNode[], string, { rejectValue: string }>(
+export const searchNodes = createAsyncThunk<DbNode[], string, { state: RootState ,rejectValue: string }>(
     'nodes/search',
     async (searchTerm: string, thunkAPI) => {
       try {

@@ -17,7 +17,12 @@ interface VariablePillProps {
   default:string,
 }
 
-//COMPONENT
+/**
+ * Renders a variable as am inline clickable chip.
+ * @param {VariablePillProps} props
+ * @return {JSX.Element}
+ * @constructor
+ */
 const VariablePill: FunctionComponent<VariablePillProps> = (props: VariablePillProps) => {
   const {id, default:defaultName} = props;
   const classes = useStyles();
@@ -56,16 +61,17 @@ const useStyles = makeStyles((theme: Theme) => (
     {
       root: {},
       chip: {
-        backgroundColor:theme.palette.success.light,
+        height:"1.2rem",
+        backgroundColor: '#C7F6DC',
         "&:hover": {
-          backgroundColor: theme.palette.success.main,
+          backgroundColor: '#a4d0b8',
         },
         "&:focus": {
-          backgroundColor: theme.palette.success.main,
+          backgroundColor: '#a4d0b8',
         }
       },
       chipAvatar: {
-        backgroundColor: theme.palette.success.light,
+        backgroundColor: 'rgba(0,0,0,0)',
         fontWeight: 900,
         color: "#000",
       },
@@ -76,18 +82,13 @@ const useStyles = makeStyles((theme: Theme) => (
         backgroundColor: theme.palette.success.light,
         fontWeight: 900,
         color: "#000",
+        "&:hover": {
+          backgroundColor: '#a4d0b8',
+        },
+        "&:focus": {
+          backgroundColor: '#a4d0b8',
+        }
       },
-      variable: {
-        display: "inline-block",
-        marginLeft: "0.5rem",
-        marginRight: "0.5rem",
-        height:"1.5rem",
-        borderRadius: "1rem",
-        paddingLeft:"0.5rem",
-        paddingRight:"0.5rem",
-        backgroundColor: theme.palette.success.light,
-
-      }
     }));
 
 export default VariablePill;
