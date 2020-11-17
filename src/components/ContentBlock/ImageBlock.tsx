@@ -1,6 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { useDispatch } from 'react-redux';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 import { ContentImage } from '../../store/nodes/types';
 
 
@@ -24,7 +23,7 @@ const ImageBlock: FunctionComponent<ImageBlockProps> = (props: ImageBlockProps) 
       </div>);
 };
 
-const useStyles = makeStyles((theme: Theme) => (
+const useStyles = makeStyles(() => (
     {
       root: {},
       image: {width: "100%"}

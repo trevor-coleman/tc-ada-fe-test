@@ -14,6 +14,7 @@ export class Api {
 
   constructor() {
     this.instance = axios.create({
+      //baseURL is kept in an environment variable.
       baseURL: process.env.REACT_APP_API_BASEURL
     })
     this.nodes =  new NodesApi(this.instance);

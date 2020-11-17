@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice} from '@reduxjs/toolkit';
 import { ApiRequestStatus, ApiRequestInfo, InitialApiRequest } from '../types';
 import { searchNodes } from '../nodes/thunks';
 
@@ -43,7 +43,7 @@ const appSlice = createSlice({
       };
     });
     builder.addCase(searchNodes.fulfilled,
-        (state, {payload, meta: {arg, requestId}}) => {
+        (state, {payload, meta: { requestId}}) => {
           const prevSearch = state.search;
           const search = requestId === prevSearch.searchRequest.id
                          ? {
@@ -59,7 +59,7 @@ const appSlice = createSlice({
           const newSelected = selected.length > 0 &&
                               payload.map(node => node.id)
                                      .indexOf(selected.slice(-1)
-                                                      .pop()!) == -1
+                                                      .pop()!) === -1
                               ? []
                               : selected;
 
@@ -77,7 +77,7 @@ const appSlice = createSlice({
   reducers: {
     /**
      * Resets the search string, initializes SearchRequest
-     * @param {Draft<State>} state
+     * @param {Draft<AppState>} state
      * @return {AppState}
      */
     clearSearch: state => (

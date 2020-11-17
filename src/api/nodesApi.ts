@@ -7,7 +7,9 @@ import { DbNode } from '../store/nodes/types';
  * Class containing methods for accessing the nodes api
  */
 export default class NodesApi extends AApiSection{
-  constructor(axios: AxiosInstance) {super(axios);}
+  constructor(axios: AxiosInstance) {
+    super(axios);
+  }
 
   /**
    * Returns array of DbNodes nodes suitable for display in the sidebar.

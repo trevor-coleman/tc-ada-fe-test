@@ -8,7 +8,7 @@ import {
 } from '../../store/variables/selectors';
 import { fetchVariables } from '../../store/variables/thunks';
 import { ApiRequestStatus } from '../../store/types';
-import useTheme from '@material-ui/core/styles/useTheme';
+
 
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
@@ -31,9 +31,9 @@ const VariablePill: FunctionComponent<VariablePillProps> = (props: VariablePillP
   const request = useFetchVariablesRequest();
 
   useEffect(()=>{
-    if (!variable && request.status == ApiRequestStatus.Idle) {
+    if (!variable && request.status === ApiRequestStatus.Idle) {
       dispatch(fetchVariables())
-    }},[id]
+    }},[id, variable, request.status, dispatch]
   )
 
 

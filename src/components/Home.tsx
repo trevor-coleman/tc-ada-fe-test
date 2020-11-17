@@ -4,19 +4,15 @@ import Container from '@material-ui/core/Container';
 import DetailView from './DetailView/DetailView';
 import AppDrawer from './AppDrawer';
 
-interface HomeProps {
-}
-
 const drawerWidth = 300;
 
 /**
  * Component that displays the home screen.
- * @param {HomeProps} props
  * @return {JSX.Element}
  * @constructor
  */
-const Home: FunctionComponent<HomeProps> = (props: HomeProps) => {
-  const {} = props;
+const Home: FunctionComponent = () => {
+
   const classes = useStyles();
 
   //TODO: Loading Screen

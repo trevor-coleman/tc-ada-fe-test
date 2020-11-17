@@ -5,7 +5,7 @@ import { findNodeById } from '../nodes/thunks';
 
 /**
  * Selects the provided node at the provided indent level.
- * Only fetches node if ndoe content does not exist in state.
+ * Only fetches node if node content does not exist in state.
  * @param {number} id
  * @param {number} indent
  * @return {(dispatch: AppDispatch) => Promise<void>}

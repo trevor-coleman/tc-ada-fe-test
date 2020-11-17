@@ -9,17 +9,14 @@ import { searchNodes } from '../store/nodes/thunks';
 import { resetVisibleNodes } from '../store/nodes/nodeSlice';
 import { clearSearch } from '../store/app/appSlice';
 
-interface SearchProps {
-}
 
 /**
  * Component that displays a search bar with debounced input.
- * @param {SearchProps} props
  * @return {JSX.Element}
  * @constructor
  */
-const Search: FunctionComponent<SearchProps> = (props: SearchProps) => {
-  const {} = props;
+const Search: FunctionComponent = () => {
+
   const classes = useStyles();
   const dispatch = useDispatch();
   const [inputValue, setInputValue] = useState("");
@@ -27,7 +24,7 @@ const Search: FunctionComponent<SearchProps> = (props: SearchProps) => {
   const debouncedSearch = useDebounce(inputValue, 500);
 
   useEffect(() => {
-    if (debouncedSearch == "") {
+    if (debouncedSearch === "") {
       dispatch(resetVisibleNodes())
       dispatch(clearSearch())
     }
@@ -36,7 +33,7 @@ const Search: FunctionComponent<SearchProps> = (props: SearchProps) => {
       //TODO: Pass this in as a prop to make the component reusable..
       dispatch(searchNodes(debouncedSearch));
     }
-  },[debouncedSearch]);
+  },[debouncedSearch, dispatch]);
 
   const handleChange = (s: string) => {
     setInputValue(s);

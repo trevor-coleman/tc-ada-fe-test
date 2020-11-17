@@ -5,17 +5,12 @@ import ContentBlock from '../ContentBlock';
 import Grid from '@material-ui/core/Grid';
 import LoadingScreen from './LoadingScreen';
 
-interface DetailViewProps {
-}
-
 /**
  * Component that renders the selected node as a vertical column of ContentBlocks.
- * @param {DetailViewProps} props
  * @return {JSX.Element}
  * @constructor
  */
-const DetailView: FunctionComponent<DetailViewProps> = (props: DetailViewProps) => {
-  const {} = props;
+const DetailView: FunctionComponent = () => {
   const classes = useStyles();
 
   const {content} = useSelectedNode();

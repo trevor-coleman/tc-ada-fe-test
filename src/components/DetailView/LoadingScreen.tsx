@@ -3,12 +3,8 @@ import { makeStyles, Theme } from '@material-ui/core/styles';
 import { useSelectedNode } from '../../store/nodes/selectors';
 import { ApiRequestStatus } from '../../store/types';
 
-interface LoadingScreenProps {
-}
-
 //COMPONENT
-const LoadingScreen: FunctionComponent<LoadingScreenProps> = (props: LoadingScreenProps) => {
-  const {} = props;
+const LoadingScreen: FunctionComponent = () => {
   const classes = useStyles();
   const {requestStatus} = useSelectedNode()
 

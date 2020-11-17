@@ -21,7 +21,7 @@ export const findNodeById = createAsyncThunk<DbNode[], number, { rejectValue: st
       try {
         const [dbNode]:DbNode[] = await api.nodes.findById(id);
         dbNode.content?.forEach(item => {
-          if (item.type == "text") {
+          if (item.type === "text") {
             item.segments = parseContentText(item.body);
           }
         });
@@ -37,8 +37,8 @@ function parseContentText(body: string): ContentTextElement[] {
   const regEx: RegExp = /(?<text>[^{]+)(?:(?:{)(?<id>[0-9a-f]*)(?:\|)(?<default>[^}]*)(?:}))*/g;
 
   const result: ContentTextElement[] = [];
-  let match;
-  while (match = regEx.exec(body)) {
+  let match = regEx.exec(body);
+  while (match) {
     const {groups} = match;
     if (!groups) continue;
     if (groups.text !== undefined) {
@@ -54,6 +54,7 @@ function parseContentText(body: string): ContentTextElement[] {
         id: groups.id,
       });
     }
+    match = regEx.exec(body);
   }
 
   return result;

@@ -6,7 +6,6 @@ import { useNode, useVisibleNodes } from '../../store/nodes/selectors';
 import { selectNode } from '../../store/app/thunks';
 import { ApiRequestStatus } from '../../store/types';
 import { Divider } from '@material-ui/core';
-import Typography from '@material-ui/core/Typography';
 import HighlightText from '../HighlightText';
 import { useSearchTerm } from '../../store/app/selectors';
 
@@ -38,7 +37,6 @@ const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemP
     ...props,
     isHighlighted,
   });
-  const thisNode = useNode(id, indent);
   const isOpen: boolean = selected[indent] === id;
   const finishedLoading = requestStatus?.status === ApiRequestStatus.Fulfilled;
   const searchTerm=useSearchTerm();
@@ -51,7 +49,7 @@ const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemP
                              ? connections.filter(connection => visibleNodes.indexOf(
           connection) !== -1)
                              : [];
-  const showDivider = indent == 0;
+  const showDivider = indent === 0;
   const showTopDivider = showDivider && isOpen && connections &&
                          connections.length > 0;
 
@@ -79,9 +77,6 @@ const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemP
       </li>);
 };
 
-interface ConnectorProps {
-  indent: number
-}
 
 const useStyles = makeStyles((theme: Theme) => (
     {
@@ -98,19 +93,19 @@ const useStyles = makeStyles((theme: Theme) => (
 
         paddingLeft({indent}: StyleProps) {
           return (
-                     indent ?? 0) == 0
+                     indent ?? 0) === 0
                  ? theme.spacing(2)
                  : 4;
         },
-        paddingTop({indent}: StyleProps) {
+        paddingTop: function ({indent}: StyleProps) {
           return (
-                     indent ?? 0) == 0
+                     indent ?? 0) === 0
                  ? theme.spacing(1)
                  : theme.spacing(1);
         },
-        paddingBottom({indent}: StyleProps) {
+        paddingBottom: function ({indent}: StyleProps) {
           return (
-                     indent ?? 0) == 0
+                     indent ?? 0) === 0
                  ? theme.spacing(1)
                  : theme.spacing(1);
         },

@@ -1,6 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles} from '@material-ui/core/styles';
 
 import VariablePill from './VariablePill';
 import { ContentText } from '../../store/nodes/types';
@@ -26,20 +26,20 @@ const TextBlock: FunctionComponent<TextBlockProps> = (props: TextBlockProps) => 
 
   return (
       <div className={classes.root}>
-        {!segments || segments.length==0 ?
+        {!segments || segments.length===0 ?
             <div className={classes.noContent}>No Content</div>:""
         }
         {segments ? segments.map((item, index)=>(
-            item.element == "text"
+            item.element === "text"
             ? <HighlightText key={`text-${item.value?.substr(0,5)}-`} body={item.value ?? ""} stringToHighlight={searchTerm}/>
-            : item.element == "variable" ?
+            : item.element === "variable" ?
               <VariablePill key={`text-var-${index}-${item.id}`} id={item.id} default={item.default ?? "unknown"}/> : "")) : "No segments"}
       </div>
 
   );
 };
 
-const useStyles = makeStyles((theme: Theme) => (
+const useStyles = makeStyles(() => (
     {
       root: {},
       noContent: {

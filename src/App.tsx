@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
-import './App.css';
-import Container from '@material-ui/core/Container';
+import React from 'react';
+
 import CssBaseline from '@material-ui/core/CssBaseline';
-import { Typography, Theme } from '@material-ui/core';
-import NodeList from './components/NodeList/NodeList';
+import { Theme } from '@material-ui/core';
 import Home from './components/Home';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 

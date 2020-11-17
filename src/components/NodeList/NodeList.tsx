@@ -7,22 +7,18 @@ import NodeListItem from './NodeListItem';
 import Divider from '@material-ui/core/Divider';
 import { useVisibleNodes } from '../../store/nodes/selectors';
 
-interface NodeListProps {
-}
 
 /**
  * Component that displays the visibleNodeIds as list with lines to indicate parent-child relationships.
- * @param {NodeListProps} props
  * @return {JSX.Element}
  * @constructor
  */
-const NodeList: FunctionComponent<NodeListProps> = (props: NodeListProps) => {
-  const {} = props;
+const NodeList: FunctionComponent = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(findNodes());
-  }, [])
+  }, [dispatch])
 
   const visibleNodes = useVisibleNodes();
 

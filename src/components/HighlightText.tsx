@@ -1,7 +1,6 @@
-import React, { FunctionComponent, CSSProperties } from 'react';
-import { useDispatch } from 'react-redux';
-import { makeStyles, Theme, StyleRules } from '@material-ui/core/styles';
-import { useSearchTerm } from '../store/app/selectors';
+import React, { FunctionComponent } from 'react';
+import { makeStyles} from '@material-ui/core/styles';
+
 
 
 /**
@@ -25,7 +24,7 @@ const HighlightText: FunctionComponent<SearchHighlightTextProps> = (props: Searc
 
   const {body, stringToHighlight} = props;
   const classes = useStyles(props);
-  const dispatch = useDispatch();
+
 
 
   const regEx = new RegExp(`(${preg_quote(stringToHighlight)})`, "gi");
@@ -66,7 +65,7 @@ function preg_quote(str: string, delimiter?: string) {
       delimiter ?? '') + '-]', 'g'), '\\$&');
 }
 
-const useStyles = makeStyles((theme: Theme) => (
+const useStyles = makeStyles(() => (
     {
       highlight: {
         backgroundColor: "#ff0",
