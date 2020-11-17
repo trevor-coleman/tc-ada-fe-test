@@ -28,7 +28,7 @@ App that pulls data from a simple REST api and displays data in content blocks.
 ## Environment Variables
 
 `REACT_APP_API_BASEURL` 
-* Sets the baseURL for api calls. Edit the included `.env` file if you need to change it.  (Note: don't put any secrets in** `.env` )
+* Sets the baseURL for api calls. Edit the included `.env` file if you need to change it.  (Note: don't put any secrets in `.env` as it will be checked into the repo. Use `.env.local` for any secrets.)
 
 ## Assumptions
 
