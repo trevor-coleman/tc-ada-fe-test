@@ -25,6 +25,12 @@ App that pulls data from a simple REST api and displays data in content blocks.
 * `npm run start`
 
 
+## Environment Variables
+
+`REACT_APP_API_BASEURL` 
+* Sets the baseURL for api calls. Edit the included `.env` file if you need to 
+change it.  (Note: don't put any secrets in** `.env` )
+
 ## Assumptions
 
 ### General
@@ -33,7 +39,7 @@ App that pulls data from a simple REST api and displays data in content blocks.
 
 I chose `redux` with `redux-toolkit` to manage my application state. I am 
 most comfortable working in redux, and I find it has great abstractions and 
-patterns that make it easy to manage as projects grow in complexity. Redux 
+patterns that make it easy to manage as projects grow in complexity. Redux- 
 toolkit is a huge time-saver and greatly cuts down on boilerplate code. 
 
 I used `create-react-app` to get started because it let me get up and running
