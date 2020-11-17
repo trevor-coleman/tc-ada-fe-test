@@ -25,6 +25,12 @@ App that pulls data from a simple REST api and displays data in content blocks.
 * `npm run start`
 
 
+## Environment Variables
+
+`REACT_APP_API_BASEURL` 
+* Sets the baseURL for api calls. Edit the included `.env` file if you need to 
+change it.  (Note: don't put any secrets in** `.env` )
+
 ## Assumptions
 
 ### General
@@ -33,7 +39,7 @@ App that pulls data from a simple REST api and displays data in content blocks.
 
 I chose `redux` with `redux-toolkit` to manage my application state. I am 
 most comfortable working in redux, and I find it has great abstractions and 
-patterns that make it easy to manage as projects grow in complexity. Redux 
+patterns that make it easy to manage as projects grow in complexity. Redux- 
 toolkit is a huge time-saver and greatly cuts down on boilerplate code. 
 
 I used `create-react-app` to get started because it let me get up and running
@@ -47,9 +53,9 @@ components one-at-a-time to help manage bundle bloat.
 I chose `axios` to handle my data fetching. I have used it a number of times
 and I find that it has a really nice clean api. 
 
-### Challenge 1
+## Challenge 1
 
-#### Image Component
+### Image Component
 
 In the provided sketch, the "image" component looked like this:
 ![Image Component](resources/image-component.png)
@@ -67,7 +73,7 @@ But the content element only contained a url:
  it would make more sense to display the URL with a thumbnail preview, or a 
  drag-and-drop image replacement component, or something similar. 
 
-#### Empty Text Blocks
+### Empty Text Blocks
 
 The spec didn't discuss how to handle displaying text elements with empty bodies. 
 
@@ -77,7 +83,7 @@ I chose to display a "no content" message, that I visually distinguished. That
 way the user would be clear it was a system message and not the content 
 of the block.
 
-#### Handling large numbers of results
+### Handling large numbers of results
 
 This API only contains a small number of nodes. In a real-world application
 we may need to handle queries that would generate hundreds, or thousands of
@@ -88,7 +94,7 @@ the app down.
 The list of nodes in the sidebar could use an "endless scroll" and fetch more
 results when the user nears or reaches the end of the list.
 
-#### Tree Diagram in the sidebar
+### Tree Diagram in the sidebar
 
 The spec showed lines connecting subnodes in the sidebar in a tree diagram. 
 
@@ -110,9 +116,9 @@ feedback after it was complete that other options would have been acceptable.
 I would have probably gone with a [TreeView](https://material-ui.com/components/tree-view/) component, because it would have been
 easier to implement, and maybe a better ux.  
 
-### Challenge 2
+## Challenge 2
 
-#### Displaying search results
+### Displaying search results
 
 The challenge says to:
 
@@ -124,7 +130,7 @@ the `/search` response.
 I applied the same filtering to subtrees as well, only displaying those that 
 matched the results.
 
-#### Highlighting Search Results
+### Highlighting Search Results
 
 The challenge says:
 
@@ -142,7 +148,7 @@ I also applied the highlighting to matches in the sidebar.
 
 ![Search Highlight 2](resources/search-highlight-2.png)
 
-#### XSS Scripting Protection
+### XSS Scripting Protection
 
 To deal with this issue I used regex to match the search string, and then
 rendered each component as a span component. This let me take advantage of 
@@ -155,7 +161,7 @@ I would like to build it to take optional "highlight" and  "regular" component
 props so you could replace the default wrapper spans with anything you wanted.
 
 
-#### Data persistence
+### Data persistence
 To improve the user experience, I would probably find a way to make the state 
 store persistent on the user side. I've previously used `redux-persist` for this.
 It greatly improves first-load times, and can persist state through refreshes
@@ -173,14 +179,14 @@ time and money, you could build a system that would track how often those
 things changed, and then estimate appropriate "best before" dates to optimize 
 for some balance of consistency and efficiency. ✨💸
 
-#### Routing
+### Routing
 I'd use `react-router` to add routes to the application, which would allow users 
 to access particular nodes via the url. Like `/node/:id` to open a particular
 node.
 
-### Challenge 3
+## Challenge 3
 
-#### Variable pill down-caret icon
+### Variable pill down-caret icon
 
 The variable pill is displayed like this in the spec:
 
