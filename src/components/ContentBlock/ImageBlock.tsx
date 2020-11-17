@@ -2,7 +2,9 @@ import React, { FunctionComponent } from 'react';
 import { makeStyles} from '@material-ui/core/styles';
 import { ContentImage } from '../../store/nodes/types';
 
-
+/**
+ * @property {ContentImage} content
+ */
 interface ImageBlockProps {
   content: ContentImage
 }

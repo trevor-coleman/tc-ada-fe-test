@@ -39,7 +39,6 @@ const VariablePill: FunctionComponent<VariablePillProps> = (props: VariablePillP
 
 
   const handleDelete = () => {
-    console.info('You clicked the delete icon.');
   };
 
   return (
@@ -50,7 +49,6 @@ const VariablePill: FunctionComponent<VariablePillProps> = (props: VariablePillP
             avatar={<Avatar className={classes.chipAvatar}>Aa</Avatar>}
             label={variable?.name ?? defaultName}
             className={classes.chip}
-            //TODO: Handle this click
             onDelete={handleDelete}
             deleteIcon={<ArrowDropDownIcon/>}
         />

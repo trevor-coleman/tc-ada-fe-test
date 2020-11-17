@@ -15,10 +15,6 @@ const Home: FunctionComponent = () => {
 
   const classes = useStyles();
 
-  //TODO: Loading Screen
-  //TODO: Loading failed screen
-  //TODO: Make responsive (hide drawer -- add AppBar with hamburger menu icon)
-
   return (
       <div>
         <AppDrawer width={drawerWidth}/>

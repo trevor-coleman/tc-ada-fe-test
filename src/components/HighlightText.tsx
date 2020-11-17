@@ -19,9 +19,6 @@ interface SearchHighlightTextProps {
  */
 const HighlightText: FunctionComponent<SearchHighlightTextProps> = (props: SearchHighlightTextProps) => {
 
-  //TODO: Take highlight style as prop to increase reusability.
-  //TODO: Take wrapper component for highlight / regular as props.
-
   const {body, stringToHighlight} = props;
   const classes = useStyles(props);
 
