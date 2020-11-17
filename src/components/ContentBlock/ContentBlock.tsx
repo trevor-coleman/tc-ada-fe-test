@@ -1,5 +1,4 @@
 import React, { FunctionComponent } from 'react';
-import { useDispatch } from 'react-redux';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 
 import ImageBlock from './ImageBlock';
@@ -42,6 +41,7 @@ const ContentBlock: FunctionComponent<ContentBlockProps> = (props: ContentBlockP
 
   return (
       <Paper>
+        <section>
         <Box className={classes.root}>
           <div className={classes.contentType}>
             <Typography variant={'h6'}>{content.type}</Typography>
@@ -50,6 +50,7 @@ const ContentBlock: FunctionComponent<ContentBlockProps> = (props: ContentBlockP
           <Block/>
         </Box>
         </Box>
+        </section>
       </Paper>
   );
 };
