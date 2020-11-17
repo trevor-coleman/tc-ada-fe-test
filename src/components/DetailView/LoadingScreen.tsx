@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme: Theme) => (
         justifyContent:"center"
       },
       getStarted: {
-        color: theme.palette.grey.A700,
+        color: theme.palette.grey['300'],
         fontWeight: 400,
         fontSize:"1.6rem"
       }

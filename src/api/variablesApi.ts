@@ -10,6 +10,7 @@ export default class VariablesApi extends AApiSection {
 
   /**
    * Returns all variable data.
+   * Throws an error if request fails.
    * @return {Promise<Variable[]>}
    */
 

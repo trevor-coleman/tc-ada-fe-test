@@ -90,14 +90,9 @@ const appSlice = createSlice({
         }),
     setSelectedNode(state, {payload: {id, indent}}) {
 
-      console.log(indent)
-      console.log(state.nodeList.selected.slice())
       const selected: number[] = state.nodeList.selected.slice(0, indent);
-      console.log("sliced", selected)
       selected.push(id);
 
-
-      console.log("pushed",selected);
       return (
           {
             ...state,

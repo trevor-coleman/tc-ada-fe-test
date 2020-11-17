@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, Theme } from '@material-ui/core/styles';
 import { useSelectedNode } from '../../store/nodes/selectors';
 import ContentBlock from '../ContentBlock';
 import Grid from '@material-ui/core/Grid';
@@ -30,9 +30,10 @@ const DetailView: FunctionComponent = () => {
       </div>);
 };
 
-const useStyles = makeStyles(() => (
+const useStyles = makeStyles((theme:Theme) => (
     {
       root: {
+        padding: theme.spacing(4),
       },
       contentBlock: {
       }

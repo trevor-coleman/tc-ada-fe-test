@@ -1,14 +1,17 @@
+/**
+ * Interface describing an object that holds information about an API Request.
+ */
+export interface ApiRequestInfo {
+  status: ApiRequestStatus,
+  message: string|null,
+  id: string|null,
+}
+
 export enum ApiRequestStatus {
   Idle,
   Pending,
   Fulfilled,
   Rejected,
-}
-
-export interface ApiRequestInfo {
-  status: ApiRequestStatus,
-  message: string|null,
-  id: string|null,
 }
 
 export const FulfilledApiRequest:ApiRequestInfo = {
