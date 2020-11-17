@@ -1,8 +1,9 @@
 import React, { FunctionComponent } from 'react';
-import { makeStyles, Theme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import { useSelectedNode } from '../../store/nodes/selectors';
 import ContentBlock from '../ContentBlock';
 import Grid from '@material-ui/core/Grid';
+import LoadingScreen from './LoadingScreen';
 
 interface DetailViewProps {
 }
@@ -29,12 +30,12 @@ const DetailView: FunctionComponent<DetailViewProps> = (props: DetailViewProps) 
                       <ContentBlock content={item} />
                     </Grid>);
               })
-           : "Loading"}
+           : <LoadingScreen/>}
         </Grid>
       </div>);
 };
 
-const useStyles = makeStyles((theme: Theme) => (
+const useStyles = makeStyles(() => (
     {
       root: {
       },
