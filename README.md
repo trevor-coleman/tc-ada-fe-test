@@ -102,8 +102,13 @@ not really happy with how they look.
 If this was going to actual customers I would probably want to spend a bit more 
 time to try and tidy this up a bit. Specifically I'd want to add some rounding 
 to the elbow of the last-child connector. But doing that would have required 
-starting over and trying an entirely different approach, which seemed excessive
-for this exercise.  
+starting over and trying an entirely different approach (probably some kind of 
+custom svg), which seemed excessive for this exercise. 
+
+I built these trying to match the spec as closely as possible. I got the 
+feedback after it was complete that other options would have been acceptable.
+I would have probably gone with a [TreeView](https://material-ui.com/components/tree-view/) component, because it would have been
+easier to implement, and maybe a better ux.  
 
 ### Challenge 2
 
@@ -141,7 +146,7 @@ I also applied the highlighting to matches in the sidebar.
 
 To deal with this issue I used regex to match the search string, and then
 rendered each component as a span component. This let me take advantage of 
-react's built-in string-escaping.
+react's built-in string-escaping 🙌🏻.  
 
 I created a component that takes a 'body' prop and a 'stringToHighlight' prop
 and then renders a set of spans appropriately highlighted. I liked this because
@@ -166,7 +171,7 @@ fetched and then only re-fetching if the data is older than some set amount.
 I suppose if you wanted to be very fancy and worked at a company with infinite 
 time and money, you could build a system that would track how often those 
 things changed, and then estimate appropriate "best before" dates to optimize 
-for some balance of consistency and efficiency. 
+for some balance of consistency and efficiency. ✨💸
 
 #### Routing
 I'd use `react-router` to add routes to the application, which would allow users 
@@ -225,11 +230,21 @@ components had proper aria-labels for people with screen-readers.
 
 ![Aria labels everywhere](resources/aria-labels.jpg)
 
+I've included some semantic HTML tags -- `<nav>` around the node list in the
+sidebar, and `<section>` around each of the content blocks. Would be good to test
+it with a screen reader to make sure they're working as intended, and even better
+get it tested by users with visual impairments to make sure they're correct.
+
+I'd also suggest that images in the database be stored with a mandatory "alt 
+text" field. Images without alt-text are a big problem for people with visual
+impairments, and it's a pain to add them after the fact. Requiring them when the 
+asset is created ensures that there is at least something there.
+
 `Material-UI` is nice in that it provides a built in `theme.getContrastText()`
 method which will provide text with sufficient context to prevent readability
-errors on background colours. This app is largely black-and-white so it isn't 
-an issue. But in a production app with a proper designer, you'd want to be sure.
+errors on background colours. This app is largely black-and-white so I haven't
+needed it here. But in a production app with more colours you'd want to be sure.
+
 
  
-
 
