@@ -1,5 +1,5 @@
 export interface DbNode {
-  id: string
+  id: number
   title: string
   content?: DbNodeContent[],
   connections?: number[]
@@ -34,6 +34,6 @@ export interface ContentImage {
 export type DbNodeContent = ContentText | ContentImage;
 
 export interface NormalizedNodes {
-  [id: string]: DbNode
+  [id: number]: DbNode
 }
 

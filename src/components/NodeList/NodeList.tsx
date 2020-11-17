@@ -10,11 +10,17 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import Divider from '@material-ui/core/Divider';
 import { Collapse } from '@material-ui/core';
+import { useVisibleNodes } from '../../store/nodes/selectors';
 
 interface NodeListProps {
 }
 
-//COMPONENT
+/**
+ * Component that displays the visibleNodeIds as list with lines to indicate parent-child relationships.
+ * @param {NodeListProps} props
+ * @return {JSX.Element}
+ * @constructor
+ */
 const NodeList: FunctionComponent<NodeListProps> = (props: NodeListProps) => {
   const {} = props;
   const classes = useStyles();
@@ -23,14 +29,13 @@ const NodeList: FunctionComponent<NodeListProps> = (props: NodeListProps) => {
     dispatch(findNodes());
   }, [])
 
-  const {nodes} = useTypedSelector(state => state.nodes)
+  const visibleNodes = useVisibleNodes();
 
-  let nodeIds: string[] = Object.keys(nodes);
-  let lastNode = nodeIds.slice(-1).pop();
+  let lastNode = visibleNodes.slice(-1).pop();
   return (
       <Box>
         <ul className={classes.ul}>
-          {nodeIds.map((n,index) => {
+          {visibleNodes.map((n,index) => {
             return <div key={"node-" + n + "-" + index}>
               <div className={classes.node}>
                 <NodeListItem id={n} />
@@ -49,6 +54,7 @@ const useStyles = makeStyles((theme: Theme) => (
         position: 'relative',
         listStyle: 'none',
         paddingLeft:0,
+        margin:0,
       },
       node: {
         display: 'flex',

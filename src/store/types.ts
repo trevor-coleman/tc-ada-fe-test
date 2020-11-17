@@ -16,3 +16,9 @@ export const FulfilledApiRequest:ApiRequestInfo = {
   message: null,
   id: null,
 }
+
+export const InitialApiRequest: ApiRequestInfo = {
+  status: ApiRequestStatus.Idle,
+  message: null,
+  id: null,
+}

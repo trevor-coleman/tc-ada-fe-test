@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { findNodes, findNodeById, searchNodes } from './thunks';
 import {
-  ApiRequestStatus, ApiRequestInfo, FulfilledApiRequest,
+  ApiRequestStatus, ApiRequestInfo, FulfilledApiRequest, InitialApiRequest,
 } from '../types';
 import { NormalizedNodes, DbNode } from './types';
 
@@ -9,17 +9,13 @@ export interface NodesState {
   findNodesByIdRequests: { [id: string]: ApiRequestInfo }
   findNodesRequest: ApiRequestInfo
   nodes: NormalizedNodes
-  nodeIds: string[],
-  visibleNodeIds: string[],
+  nodeIds: number[],
+  visibleNodeIds: number[],
 }
 
 const initialNodesState: NodesState = {
   findNodesByIdRequests: {},
-  findNodesRequest: {
-    status: ApiRequestStatus.Idle,
-    id: null,
-    message: null,
-  },
+  findNodesRequest: InitialApiRequest,
   nodes: {},
   nodeIds: [],
   visibleNodeIds: [],
@@ -28,7 +24,12 @@ const initialNodesState: NodesState = {
 const nodeSlice = createSlice({
   name: 'nodes',
   initialState: initialNodesState,
-  reducers: {},
+  reducers: {
+    resetVisibleNodes:state => ({
+      ...state,
+      visibleNodeIds: state.nodeIds,
+    })
+  },
   extraReducers: builder => {
     //FIND NODES
     builder.addCase(findNodes.pending, (state, action) => {
@@ -55,8 +56,8 @@ const nodeSlice = createSlice({
                 [curr.id]: curr,
               }), {});
 
-          const nodeIds = Object.keys(nodes);
-          const visibleNodeIds = Object.keys(nodes);
+          const nodeIds = Object.keys(nodes).map(i=>parseInt(i));
+          const visibleNodeIds = Object.keys(nodes).map(i => parseInt(i));
 
           return {
             ...state,
@@ -65,6 +66,7 @@ const nodeSlice = createSlice({
                               : state.findNodesRequest,
             nodes,
             nodeIds,
+            visibleNodeIds,
           };
         });
 
@@ -106,7 +108,7 @@ const nodeSlice = createSlice({
                 [curr.id]: curr,
               }), state.nodes);
 
-          const nodeIds = Object.keys(nodes);
+          const nodeIds = Object.keys(nodes).map(i => parseInt(i));
 
           return {
             ...state,
@@ -139,7 +141,7 @@ const nodeSlice = createSlice({
 
     //SEARCH NODES
     builder.addCase(searchNodes.fulfilled,
-        (state, {payload, meta: {arg, requestId}}) => {
+        (state, {payload}) => {
 
           //normalize nodes -- keep existing data to reduce fetching.
           const nodes = payload.reduce((prev: NormalizedNodes,
@@ -147,13 +149,14 @@ const nodeSlice = createSlice({
               {
                 ...prev,
                 [curr.id]: {
-                  ...prev[curr.id], ...curr,
+                  ...prev[curr.id],
+                  ...curr,
                 },
-              }), {});
+              }), state.nodes);
 
 
-          const nodeIds  = Object.keys(nodes);
-          const visibleNodeIds = payload.reduce((prev: string[],
+          const nodeIds  = Object.keys(nodes).map(i => parseInt(i));
+          const visibleNodeIds = payload.reduce((prev: number[],
                                                  curr: DbNode) => {
             prev.push(curr.id);
             return prev;
@@ -169,4 +172,5 @@ const nodeSlice = createSlice({
   },
 });
 
+export const { resetVisibleNodes } = nodeSlice.actions;
 export default nodeSlice.reducer;

@@ -3,11 +3,14 @@ import { AxiosResponse, AxiosInstance } from 'axios';
 import AApiSection from './AApiSection';
 import { DbNode } from '../store/nodes/types';
 
+/**
+ * Class containing methods for accessing the nodes api
+ */
 export default class NodesApi extends AApiSection{
   constructor(axios: AxiosInstance) {super(axios);}
 
   /**
-   * Returns a shallow list of nodes suitable for display in the sidebar.
+   * Returns array of DbNodes nodes suitable for display in the sidebar.
    * Throws an error if the call was unsuccessful.
    * @return {Promise<DbNode[]>}
    */
@@ -24,7 +27,7 @@ export default class NodesApi extends AApiSection{
    * @param {string} id
    * @return {Promise<DbNode>}
    */
-  async findById(id: string): Promise<DbNode[]> {
+  async findById(id: number): Promise<DbNode[]> {
     const response: AxiosResponse<DbNode[]> = await this.axios.get(`/nodes/${id}`);
     return response.data;
   }

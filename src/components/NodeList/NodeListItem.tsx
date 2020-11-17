@@ -2,37 +2,57 @@ import React, { FunctionComponent } from 'react';
 import { useDispatch } from 'react-redux';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import Collapse from '@material-ui/core/Collapse';
-import { useNode } from '../../store/nodes/selectors';
+import { useNode, useVisibleNodes } from '../../store/nodes/selectors';
 import { selectNode } from '../../store/app/thunks';
 import { ApiRequestStatus } from '../../store/types';
 import { Divider } from '@material-ui/core';
 import Typography from '@material-ui/core/Typography';
+import HighlightText from '../HighlightText';
+import { useSearchTerm } from '../../store/app/selectors';
 
 interface NodeListItemProps {
-  id: string,
+  id: number,
   indent?: number,
   index?: number,
 }
 
-//COMPONENT
+type StyleProps = NodeListItemProps & {
+  isHighlighted: boolean;
+}
+
+/**
+ * Component that displays items inside of a node list.
+ * @param {NodeListItemProps} props
+ * @return {JSX.Element}
+ * @constructor
+ */
 const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemProps) => {
   const {id} = props;
   const indent = props.indent ?? 0;
-  const classes = useStyles(props);
   const dispatch = useDispatch();
+  const visibleNodes = useVisibleNodes();
   const {selected, title, connections, requestStatus, isHighlighted} = useNode(
       id,
       indent);
-
-  const isSelected: boolean = selected[indent] === id;
+  const classes = useStyles({
+    ...props,
+    isHighlighted,
+  });
+  const thisNode = useNode(id, indent);
+  const isOpen: boolean = selected[indent] === id;
   const finishedLoading = requestStatus?.status === ApiRequestStatus.Fulfilled;
+  const searchTerm=useSearchTerm();
 
   const handleClick = () => {
     dispatch(selectNode(id, indent));
   };
 
+  const visibleConnections = connections
+                             ? connections.filter(connection => visibleNodes.indexOf(
+          connection) !== -1)
+                             : [];
   const showDivider = indent == 0;
-  const showTopDivider = showDivider && isSelected && connections &&
+  const showTopDivider = showDivider && isOpen && connections &&
                          connections.length > 0;
 
   return (
@@ -40,17 +60,20 @@ const NodeListItem: FunctionComponent<NodeListItemProps> = (props: NodeListItemP
       <li className={indent > 0
                      ? classes.li
                      : classes.topLi} key={id}>
-        <div onClick={() => handleClick()}
-             className={classes.title}><Typography>{title}</Typography></div>
-        <Collapse in={isSelected && finishedLoading}>
+        <div className={classes.title} onClick={() => handleClick()}>
+          <HighlightText body={title} stringToHighlight={searchTerm} />
+        </div>
+        <Collapse in={isOpen && finishedLoading}>
           {showTopDivider
            ? <Divider className={classes.topDivider} />
            : ""}
           <ul className={classes.ul}>
-            {connections?.map((connection, index) => (
-                <NodeListItem key={id + connection + index}
-                              id={connection.toString()}
-                              indent={indent + 1}>{title}</NodeListItem>))}
+            {visibleConnections?.map((connection, index) => {
+              return (
+                  <NodeListItem key={id + connection + index}
+                                id={connection}
+                                indent={indent + 1}>{title}</NodeListItem>);
+            })}
           </ul>
         </Collapse>
       </li>);
@@ -70,24 +93,33 @@ const useStyles = makeStyles((theme: Theme) => (
         width: "100%",
       },
       title: {
-        paddingLeft({indent}: NodeListItemProps) {
+        display: 'flex',
+        alignItems: 'center',
+
+        paddingLeft({indent}: StyleProps) {
           return (
                      indent ?? 0) == 0
                  ? theme.spacing(2)
-                 : 0;
+                 : 4;
         },
-        paddingTop({indent}: NodeListItemProps) {
+        paddingTop({indent}: StyleProps) {
           return (
                      indent ?? 0) == 0
                  ? theme.spacing(1)
                  : theme.spacing(1);
         },
-        paddingBottom({indent}: NodeListItemProps) {
+        paddingBottom({indent}: StyleProps) {
           return (
                      indent ?? 0) == 0
                  ? theme.spacing(1)
-                 : 0;
+                 : theme.spacing(1);
         },
+        backgroundColor: ({isHighlighted}: StyleProps) => isHighlighted
+                                                          ?  theme.palette.grey['200']
+                                                          : "#fff",
+        color: ({isHighlighted}: StyleProps) => isHighlighted
+                                                ? theme.palette.getContrastText(theme.palette.grey['100'])
+                                                : theme.palette.text.primary,
 
       },
       topLi: {
