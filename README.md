@@ -251,6 +251,11 @@ method which will provide text with sufficient context to prevent readability
 errors on background colours. This app is largely black-and-white so I haven't
 needed it here. But in a production app with more colours you'd want to be sure.
 
+### Error Messages
+Right now if the api fails to fetch the response, it does so silently. The 
+redux thunks capture the errors and store them, but there is no feedback to the
+user that something has gone wrong.
 
- 
+In an app for public consumption, each error message would need to be displayed
+so that the user would know what went wrong. 
 

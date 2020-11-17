@@ -3,6 +3,7 @@ import api from '../../api';
 import { ContentTextElement, DbNode } from './types';
 import { RootState } from '../index';
 
+
 export const findNodes = createAsyncThunk<DbNode[], void, { rejectValue: string; }>(
     'nodes/findNodes',
     async (_, thunkAPI) => {
@@ -33,7 +34,19 @@ export const findNodeById = createAsyncThunk<DbNode[], number, { rejectValue: st
       return [];
     });
 
+/**
+ * Function that takes a string and splits it into Text and Variable elements, and returns an ordered array.
+ * @param {string} body
+ * @return {ContentTextElement[]}
+ */
 function parseContentText(body: string): ContentTextElement[] {
+
+  /**
+   * Regex to capture text and variables.
+   * text    = anything before the first `{`
+   * id      = the variable id (if a variable exists)
+   * default = the fallback (if one exists)
+   **/
   const regEx: RegExp = /(?<text>[^{]+)(?:(?:{)(?<id>[0-9a-f]*)(?:\|)(?<default>[^}]*)(?:}))*/g;
 
   const result: ContentTextElement[] = [];
