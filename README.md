@@ -1,4 +1,4 @@
-# Ada Front End Test - Trevor Coleman
+# Front End Code Samplw - Trevor Coleman
 
 App that pulls data from a simple REST api and displays data in content blocks.
 
