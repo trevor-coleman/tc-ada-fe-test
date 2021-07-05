@@ -1,4 +1,4 @@
-# Front End Code Samplw - Trevor Coleman
+# Front End Code Sample - Trevor Coleman
 
 App that pulls data from a simple REST api and displays data in content blocks.
 
